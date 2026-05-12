@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="_02.CLIMOV.Vista.LoginPage"
+             Shell.NavBarIsVisible="False">
+
+    <Grid>
+        <!-- Imagen de fondo -->
+        <Image Source="sullivan.jpg" Aspect="AspectFill"
+               HorizontalOptions="Fill" VerticalOptions="Fill" />
+
+        <ScrollView>
+            <VerticalStackLayout Padding="30" Spacing="0" VerticalOptions="Center">
+
+                <!-- Tarjeta blanca semitransparente -->
+                <Border BackgroundColor="#FFFFFF" Opacity="0.96"
+                        StrokeShape="RoundRectangle 20" Stroke="Transparent"
+                        Padding="25"
+                        Shadow="{OnPlatform Default={Shadow Brush='#000000', Offset='0,4', Radius=20, Opacity=0.15}}">
+                    <VerticalStackLayout Spacing="20">
+
+                        <!-- Ícono puerta -->
+                        <Border BackgroundColor="#F3F0FF"
+                                StrokeShape="RoundRectangle 30"
+                                Stroke="Transparent"
+                                Padding="10"
+                                HeightRequest="60" WidthRequest="60"
+                                HorizontalOptions="Center">
+                            <Label Text="🚪" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+
+                        <Label Text="¡Bienvenido!"
+                               FontSize="30" FontAttributes="Bold"
+                               TextColor="#5B2C8E" HorizontalOptions="Center" />
+
+                        <!-- Campos de texto -->
+                        <Border Stroke="#8B5CF6" StrokeThickness="2" BackgroundColor="#F8FAFC"
+                                Padding="14,8" StrokeShape="RoundRectangle 12">
+                            <Entry x:Name="EntryUsuario" Placeholder="Usuario"
+                                   PlaceholderColor="#9CA3AF" TextColor="#1E293B"
+                                   FontSize="16" ClearButtonVisibility="WhileEditing" />
+                        </Border>
+
+                        <Border Stroke="#8B5CF6" StrokeThickness="2" BackgroundColor="#F8FAFC"
+                                Padding="14,8" StrokeShape="RoundRectangle 12">
+                            <Entry x:Name="EntryPassword" Placeholder="Contraseña"
+                                   PlaceholderColor="#9CA3AF" TextColor="#1E293B"
+                                   FontSize="16" IsPassword="True"
+                                   ClearButtonVisibility="WhileEditing" />
+                        </Border>
+
+                        <!-- Botón INGRESAR -->
+                        <Button x:Name="BtnLogin" Text="INGRESAR" Clicked="OnLoginClicked"
+                                HeightRequest="55" FontAttributes="Bold" FontSize="16"
+                                TextColor="White" CornerRadius="15" Margin="0,10,0,0">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#8B5CF6" Offset="0.0" />
+                                    <GradientStop Color="#14B8A6" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Button.Background>
+                            <Button.Shadow>
+                                <Shadow Brush="#14B8A6" Opacity="0.5" Radius="10" Offset="0,4" />
+                            </Button.Shadow>
+                        </Button>
+
+                        <!-- Indicador de carga -->
+                        <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False"
+                                           IsVisible="False" Color="#14B8A6" HeightRequest="40" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Créditos -->
+                <Label HorizontalOptions="Center" Margin="0,25,0,20">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="👾 " FontSize="14" />
+                            <Span Text="Hecho por: Ariel R. y Anthony V."
+                                  FontSize="13" TextColor="White"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,2 @@
+No se usa Base de datos por lo tanto no hay scripts 
+

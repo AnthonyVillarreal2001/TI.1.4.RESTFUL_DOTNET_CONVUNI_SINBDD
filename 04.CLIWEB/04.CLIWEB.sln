@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.5.11723.231 stable
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.CLIWEB", "02.CLIWEB\04.CLIWEB.csproj", "{A2F2A254-268C-4B31-B0A4-65ACF669255D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2F2A254-268C-4B31-B0A4-65ACF669255D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2F2A254-268C-4B31-B0A4-65ACF669255D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2F2A254-268C-4B31-B0A4-65ACF669255D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2F2A254-268C-4B31-B0A4-65ACF669255D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57098266-4C78-40E8-9012-F4671A53BB36}
+	EndGlobalSection
+EndGlobal

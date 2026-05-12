@@ -1,0 +1,91 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "Inicio de Sesión";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body, html { height: 100%; font-family: 'Segoe UI', 'Poppins', sans-serif; }
+        body {
+            background: url('/images/sullivan.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px 25px;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+            text-align: center;
+        }
+        .login-icon { font-size: 2.5rem; color: #8B5CF6; }
+        .login-title {
+            font-size: 2rem; font-weight: 700; color: #5B2C8E; margin: 10px 0 25px;
+        }
+        .input-group { margin-bottom: 18px; text-align: left; }
+        .input-group input {
+            width: 100%; padding: 12px 14px; border: 2px solid #8B5CF6;
+            border-radius: 12px; font-size: 1rem; background: #F8FAFC; color: #1E293B;
+            outline: none; transition: border-color 0.2s;
+        }
+        .input-group input:focus { border-color: #14B8A6; }
+        .btn-login {
+            width: 100%; padding: 14px; border: none; border-radius: 14px;
+            font-weight: 700; font-size: 1.1rem; color: white;
+            background: linear-gradient(90deg, #8B5CF6 0%, #14B8A6 100%);
+            cursor: pointer; box-shadow: 0 6px 20px rgba(20,184,166,0.4);
+            transition: all 0.3s ease; margin-top: 10px;
+        }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(20,184,166,0.5); }
+        .error-msg {
+            background: #FEF2F2; border: 1px solid #EF4444; color: #B91C1C;
+            padding: 10px; border-radius: 10px; margin-bottom: 15px;
+        }
+        .credits {
+            margin-top: 30px; color: rgba(255,255,255,0.8); font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="login-icon">🚪</div>
+        <h1 class="login-title">¡Bienvenido!</h1>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="error-msg">⚠️ @ViewBag.Error</div>
+        }
+
+        <form asp-action="Index" method="post">
+            @Html.AntiForgeryToken()
+            <div class="input-group">
+                <input type="text" name="usuario" placeholder="Usuario" required />
+            </div>
+            <div class="input-group">
+                <input type="password" name="clave" placeholder="Contraseña" required />
+            </div>
+            <button type="submit" class="btn-login" id="loginBtn">INGRESAR</button>
+        </form>
+    </div>
+    <div class="credits">👾 Hecho por: Ariel R. y Anthony V.</div>
+
+    <script>
+        const form = document.querySelector('form');
+        const btn = document.getElementById('loginBtn');
+        form.addEventListener('submit', () => {
+            btn.textContent = 'INGRESANDO...';
+            btn.style.opacity = '0.8';
+            btn.disabled = true;
+        });
+    </script>
+</body>
+</html>

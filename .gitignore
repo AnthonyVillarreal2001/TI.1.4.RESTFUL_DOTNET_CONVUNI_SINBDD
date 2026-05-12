@@ -1,0 +1,36 @@
+
+# Visual Studio user files
+*.suo
+*.user
+*.sln.docstates
+.vs/
+
+# Build results
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# NuGet packages
+**/packages/
+*.nupkg
+
+# MAUI / Android / iOS outputs
+*.apk
+*.aab
+*.ipa
+*.msix
+*.msixbundle
+*.appxbundle
+
+# macOS
+.DS_Store
+
+# Rider / ReSharper
+*.DotSettings.user
+_ReSharper.Caches/
+
+# Windows image file (opcional, si es un backup)
+Thumbs.db

@@ -1,0 +1,246 @@
+﻿@model _04.CLIWEB.ec.edu.monster.modelo.Resultado
+@{
+    Layout = null;
+    ViewData["Title"] = "Conversión de Unidades";
+    var usuario = Context.Session.GetString("usuario") ?? "Invitado";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body, html { height: 100%; font-family: 'Segoe UI', 'Poppins', sans-serif; }
+        body {
+            background: url('/images/sullivan.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .converter-wrapper {
+            max-width: 620px; margin: 20px auto; display: flex; flex-direction: column; gap: 16px;
+        }
+        .header-card {
+            background: rgba(255,255,255,0.92); border-radius: 20px;
+            padding: 16px 24px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        }
+        .header-title { font-size: 1.6rem; font-weight: 700; color: #5B2C8E; }
+        .btn-logout {
+            background: #3B82F6; color: white; border: none; padding: 10px 20px;
+            border-radius: 12px; font-weight: 600; cursor: pointer; text-decoration: none;
+        }
+        .section-card {
+            background: white; border-radius: 20px; box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+            overflow: hidden; display: flex; flex-direction: column;
+        }
+        .section-header {
+            padding: 14px 20px; font-weight: 700; font-size: 1rem; color: white;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .header-category { background: #3B82F6; }
+        .header-type { background: linear-gradient(90deg, #F97316, #EF4444); }
+        .header-value { background: linear-gradient(90deg, #10B981, #059669); }
+        .section-body { padding: 20px; background: white; }
+        select, .input-value {
+            width: 100%; padding: 12px 14px; border: 2px solid #D1D5DB;
+            border-radius: 12px; font-size: 1rem; background: #F9FAFB; color: #1E293B;
+            outline: none; transition: border-color 0.2s;
+        }
+        select:focus, .input-value:focus { border-color: #14B8A6; }
+        .btn-convert {
+            width: 100%; padding: 14px; border: none; border-radius: 14px;
+            font-weight: 700; font-size: 1.1rem; color: white;
+            background: linear-gradient(90deg, #14B8A6, #0D9488);
+            cursor: pointer; box-shadow: 0 6px 18px rgba(20,184,166,0.4);
+            transition: all 0.3s; margin-top: 10px;
+        }
+        .btn-convert:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(20,184,166,0.5); }
+        .result-card {
+            background: #F0FDFA; border-left: 6px solid #14B8A6;
+            border-radius: 14px; padding: 18px 20px; margin-top: 18px; color: #0F766E;
+        }
+        .result-card .result-big { font-size: 1.8rem; font-weight: 700; }
+        .result-card .result-detail { font-size: 0.9rem; opacity: 0.8; margin-top: 5px; }
+        .error-box {
+            background: #FEF2F2; border-left: 6px solid #EF4444; color: #B91C1C;
+            padding: 15px 20px; border-radius: 14px; margin-bottom: 10px;
+        }
+        .fab-clear {
+            position: fixed; bottom: 24px; right: 24px;
+            width: 56px; height: 56px; background: #F97316; color: white;
+            border: none; border-radius: 50%; font-size: 1.6rem; cursor: pointer;
+            box-shadow: 0 8px 24px rgba(249,115,22,0.5);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10; transition: transform 0.2s;
+        }
+        .fab-clear:hover { transform: scale(1.08); }
+        .credits {
+            text-align: center; color: rgba(255,255,255,0.75); font-size: 0.75rem;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter-wrapper">
+        <div class="header-card">
+            <div class="header-title">Conversión de Unidades</div>
+            <a href="/Login/Logout" class="btn-logout">Cerrar sesión</a>
+        </div>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="error-box">⚠️ @ViewBag.Error</div>
+        }
+
+        <form id="convertForm" asp-action="Index" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="tipo" id="hiddenType" />
+
+            <div class="section-card">
+                <div class="section-header header-category">
+                    <span>📋</span> Categoría de Conversión
+                </div>
+                <div class="section-body">
+                    <select id="categorySelect">
+                        <option value="">-- Seleccionar --</option>
+                        <option value="longitud">📏 Longitud</option>
+                        <option value="peso">⚖️ Peso</option>
+                        <option value="temperatura">🌡️ Temperatura</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header header-type">
+                    <span>🔄</span> Tipo de Conversión
+                </div>
+                <div class="section-body">
+                    <select id="typeSelect" disabled>
+                        <option value="">Primero seleccione una categoría</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header header-value">
+                    <span>✏️</span> Ingrese el Valor
+                </div>
+                <div class="section-body">
+                    <input type="text" name="valor" id="inputValue" class="input-value"
+                           placeholder="Ingrese el valor numérico"
+                           value="@(ViewData["valor"] ?? "")" />
+
+                    <button type="submit" class="btn-convert" id="convertBtn">CONVERTIR</button>
+
+                    @if (Model?.Output != null)
+                    {
+                        <div class="result-card">
+                            <div class="result-big">@Model.Output</div>
+                            <div class="result-detail">
+                                @Model.Input → @Model.Output
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </form>
+
+        <div class="credits">👾 Hecho por: Ariel R. y Anthony V.</div>
+    </div>
+
+    <button class="fab-clear" onclick="clearForm()" title="Limpiar">🗑️</button>
+
+    <script>
+        const conversions = {
+            longitud: [
+                { text: 'Metros → Pies', value: 'MetroAPie' },
+                { text: 'Kilómetros → Millas', value: 'KilometroAMilla' },
+                { text: 'Centímetros → Pulgadas', value: 'CentimetroAPulgada' },
+                { text: 'Pulgadas → Centímetros', value: 'PulgadaACentimetro' },
+                { text: 'Pies → Metros', value: 'PieAMetro' }
+            ],
+            peso: [
+                { text: 'Kilogramos → Libras', value: 'KilogramoALibra' },
+                { text: 'Gramos → Onzas', value: 'GramoAOnza' },
+                { text: 'Toneladas → Kilogramos', value: 'ToneladaAKilogramo' },
+                { text: 'Libras → Kilogramos', value: 'LibraAKilogramo' },
+                { text: 'Onzas → Gramos', value: 'OnzaAGramo' }
+            ],
+            temperatura: [
+                { text: 'Celsius → Fahrenheit', value: 'CelsiusAFahrenheit' },
+                { text: 'Celsius → Kelvin', value: 'CelsiusAKelvin' },
+                { text: 'Celsius → Rankine', value: 'CelsiusARankine' },
+                { text: 'Celsius → Réaumur', value: 'CelsiusAReaumur' },
+                { text: 'Fahrenheit → Celsius', value: 'FahrenheitACelsius' }
+            ]
+        };
+
+        const categorySelect = document.getElementById('categorySelect');
+        const typeSelect = document.getElementById('typeSelect');
+        const hiddenType = document.getElementById('hiddenType');
+        const form = document.getElementById('convertForm');
+        const btn = document.getElementById('convertBtn');
+
+        categorySelect.addEventListener('change', function() {
+            const cat = this.value;
+            typeSelect.innerHTML = '';
+            if (!cat) {
+                typeSelect.disabled = true;
+                typeSelect.innerHTML = '<option value="">Primero seleccione una categoría</option>';
+                hiddenType.value = '';
+                return;
+            }
+            typeSelect.disabled = false;
+            conversions[cat].forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.value;
+                opt.textContent = item.text;
+                typeSelect.appendChild(opt);
+            });
+            hiddenType.value = typeSelect.value;
+        });
+
+        typeSelect.addEventListener('change', function() {
+            hiddenType.value = this.value;
+        });
+
+        form.addEventListener('submit', function() {
+            if (!categorySelect.value || !typeSelect.value) {
+                alert('Seleccione una categoría y un tipo de conversión.');
+                return false;
+            }
+            btn.textContent = 'CONVIRTIENDO...';
+            btn.disabled = true;
+        });
+
+        window.addEventListener('load', function() {
+            const tipoGuardado = '@ViewData["viewTipo"]';
+            if (tipoGuardado) {
+                let cat = '';
+                if (['MetroAPie','KilometroAMilla','CentimetroAPulgada','PulgadaACentimetro','PieAMetro'].includes(tipoGuardado)) cat = 'longitud';
+                else if (['KilogramoALibra','GramoAOnza','ToneladaAKilogramo','LibraAKilogramo','OnzaAGramo'].includes(tipoGuardado)) cat = 'peso';
+                else if (['CelsiusAFahrenheit','CelsiusAKelvin','CelsiusARankine','CelsiusAReaumur','FahrenheitACelsius'].includes(tipoGuardado)) cat = 'temperatura';
+                if (cat) {
+                    categorySelect.value = cat;
+                    categorySelect.dispatchEvent(new Event('change'));
+                    typeSelect.value = tipoGuardado;
+                    hiddenType.value = tipoGuardado;
+                }
+            }
+        });
+
+        function clearForm() {
+            categorySelect.value = '';
+            typeSelect.innerHTML = '<option value="">Primero seleccione una categoría</option>';
+            typeSelect.disabled = true;
+            document.getElementById('inputValue').value = '';
+            hiddenType.value = '';
+            const result = document.querySelector('.result-card');
+            if (result) result.style.display = 'none';
+            const error = document.querySelector('.error-box');
+            if (error) error.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

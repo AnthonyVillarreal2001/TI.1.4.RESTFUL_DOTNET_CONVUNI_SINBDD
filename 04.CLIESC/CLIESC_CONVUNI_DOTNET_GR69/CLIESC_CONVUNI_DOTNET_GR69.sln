@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.5.11723.231 stable
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLIESC_CONVUNI_DOTNET_GR69", "CLIESC_CONVUNI_DOTNET_GR69.csproj", "{D69F72F8-37C2-B622-F9AA-127F795B2DD8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D69F72F8-37C2-B622-F9AA-127F795B2DD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D69F72F8-37C2-B622-F9AA-127F795B2DD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D69F72F8-37C2-B622-F9AA-127F795B2DD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D69F72F8-37C2-B622-F9AA-127F795B2DD8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {867183F7-FD0D-4FCC-8A9D-C645B3DEC701}
+	EndGlobalSection
+EndGlobal
